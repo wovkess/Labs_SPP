@@ -1,7 +1,5 @@
 import java.util.Scanner;
 
-import org.w3c.dom.css.Rect;
-
 public class Rectangle {
     private int square_counter;
     private int perimeter_counter;
@@ -9,9 +7,9 @@ public class Rectangle {
     private int checked;
 
     public Rectangle() { // constructor
-        
+
     }
-    
+
     public Rectangle(int square_counter, int perimeter_counter, int a, int b, int checked) {
         this.square_counter = square_counter;
         this.perimeter_counter = perimeter_counter;
