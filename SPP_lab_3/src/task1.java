@@ -1,6 +1,4 @@
 import java.util.Scanner;
-import java.util.Formatter;
-import static java.lang.Math.*;
 
 abstract class Rectangle {
     private int a;
@@ -69,6 +67,7 @@ class PRectangle extends Rectangle {
         } else {
             return false;
         }
+
     }
 
 }
