@@ -1,6 +1,6 @@
 import java.io.*;
 import java.util.*;
-import java.util.stream.Collectors;
+import java.util.stream.*;
 
 public class Library {
     private Book[] books;
@@ -21,30 +21,33 @@ public class Library {
     }
 
     public static void main(String[] args) {
-        List<String> sentences = Input_File("D:/Study/Java/Labs_SPP/SPP_lab_3/txt_files/books_list.txt");
-        int numberOfBooks = sentences.size();
-        String[][] array = new String[numberOfBooks][];
+        List<String> strings = Input_File("D:/Study/Java/Labs_SPP/SPP_lab_3/txt_files/books_list.txt");
+        int numberOfBooks = strings.size();
+        String[][] arr = new String[numberOfBooks][];
 
         int i = 0;
-        for (String str : sentences) {
-            array[i++] = str.split("\\s");
+        for (String str : strings) {
+            arr[i++] = str.split("\\s");
         }
 
         Library lb = new Library(numberOfBooks);
-        lb.testLibrary(array);
+        lb.testLibrary(arr);
     }
 
     void ListOfBooks(Book[] Books) {
         for (Book book : Books) {
-            System.out.print(book.getTitle() + " | ");
+            System.out.print(book.getTitle() + "|___|");
         }
     }
+
+    Calendar calendar = Calendar.getInstance();
+    int week_year = calendar.getWeekYear();
 
     void OlderBooks(Book[] Books, int year) {
         for (Book book : Books) {
             int pubYear = book.getYear();
-            if (pubYear > year) {
-                System.out.print(book.getTitle() + " | ");
+            if (pubYear < (week_year - year)) {
+                System.out.print(book.getTitle() + "|___|");
             }
         }
     }
@@ -52,8 +55,8 @@ public class Library {
     void TakeBooks(Book[] Books) {
         for (Book book : Books) {
             String Read = book.getRead();
-            if (!Read.equals("null")) {
-                System.out.print(book.getTitle() + " | ");
+            if (!Read.equals("passed")) {
+                System.out.print(book.getTitle() + "|___|");
             }
         }
     }
@@ -63,7 +66,7 @@ public class Library {
             String Read = book.getRead();
             String FIO = book.getFIO();
             if (!Read.equals("null")) {
-                System.out.print(book.getTitle() + ": " + FIO + " | ");
+                System.out.print(book.getTitle() + ": " + FIO + "|___|");
             }
         }
     }
@@ -71,8 +74,8 @@ public class Library {
     void Delay(Book[] Books, int BookWithReader) {
         for (Book book : Books) {
             String Read = book.getRead();
-            if (!Read.equals("null") && Integer.parseInt(Read) > BookWithReader) {
-                System.out.print(book.getTitle() + " | ");
+            if (!Read.equals("passed") && Integer.parseInt(Read) > BookWithReader) {
+                System.out.print(book.getTitle() + "|___|");
             }
         }
     }
@@ -89,8 +92,8 @@ public class Library {
         System.out.println("\nBOOKS");
         ListOfBooks(books);
 
-        System.out.println("\nOld books(5<)");
-        OlderBooks(books, 5);
+        System.out.println("\nBooks older than 100 years");
+        OlderBooks(books, 100); // выбор возраста книги
 
         System.out.println("\nTAKEN BOOKS");
         TakeBooks(books);
@@ -98,8 +101,8 @@ public class Library {
         System.out.println("\nFIO OF TAKEN BOOKS");
         TakeBooks_WithFIO(books);
 
-        System.out.println("\nSeized books");
-        Delay(books, 2);
+        System.out.println("\nOverdue books");
+        Delay(books, 14); // задача срока сдачи книги
     }
 
     @Override
@@ -108,27 +111,23 @@ public class Library {
     }
 
     public static List<String> Input_File(String fileName) {
-        List<String> sentences = new ArrayList<>();
+        List<String> strings = new ArrayList<>();
 
         try (Scanner file = new Scanner(new File(fileName))) {
             while (file.hasNextLine()) {
-                sentences.add(file.nextLine());
+                strings.add(file.nextLine());
             }
             file.close();
         } catch (IOException ex) {
 
             System.out.println(ex.getMessage());
         }
-        return sentences.stream().map(String::trim).collect(Collectors.toList());
+        return strings.stream().map(String::trim).collect(Collectors.toList());
     }
 }
 
 class Book {
     private String author, title, publishYear, copies, pages, volumes, number, fio, period;
-
-    Book() {
-        this("Braun", "Point", "2001", "2", "103", "3", "323.32", "Brishten", "23");
-    }
 
     Book(String bookAuthor, String bookName, String year, String numcopy,
             String numpage, String numvol, String UDK, String FIO, String Period) {

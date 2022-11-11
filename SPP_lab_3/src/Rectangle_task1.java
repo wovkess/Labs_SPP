@@ -72,7 +72,7 @@ class PRectangle extends Rectangle {
 
 }
 
-public class task1 {
+public class Rectangle_task1 {
     public static void show_test(PRectangle tr) {
         System.out.println("Rectangle: " + tr.show());
         System.out.println("Is a rectangle(true&false)? " + tr.is_a_rectangle());
