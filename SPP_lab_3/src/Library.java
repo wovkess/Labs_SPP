@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 public class Library {
     private Book[] books;
 
-    Map<String, Integer> data = Map.of(
+    Map<String, Integer> buf = Map.of(
             "author", 0,
             "title", 1,
             "publishYear", 2,
@@ -79,10 +79,10 @@ public class Library {
 
     void testLibrary(String[][] arr) {
         for (int i = 0; i < arr.length; i++) {
-            books[i] = new Book(arr[i][data.get("author")], arr[i][data.get("title")],
-                    arr[i][data.get("publishYear")], arr[i][data.get("copies")], arr[i][data.get("pages")],
-                    arr[i][data.get("volumes")], arr[i][data.get("number")], arr[i][data.get("fio")],
-                    arr[i][data.get("period")]);
+            books[i] = new Book(arr[i][buf.get("author")], arr[i][buf.get("title")],
+                    arr[i][buf.get("publishYear")], arr[i][buf.get("copies")], arr[i][buf.get("pages")],
+                    arr[i][buf.get("volumes")], arr[i][buf.get("number")], arr[i][buf.get("fio")],
+                    arr[i][buf.get("period")]);
             System.out.println(books[i].toString());
         }
 
