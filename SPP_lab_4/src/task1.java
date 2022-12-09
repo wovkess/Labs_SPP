@@ -5,14 +5,14 @@ import java.util.Map;
 class Abiturient implements Printable {
     private String Name, Surname;
     public Integer assessment;
-    private Faculty facultet; // Ассоциация
-    private ArrayList<Exams> exams; // Ассоциация
+    private Faculty facultet;
+    private ArrayList<Exams> exams;
     private Exams exam = new Exams("Show");;
 
     Abiturient(String name, String surname, String Facultet, ArrayList<Exams> exams) {
         this.Name = name;
         this.Surname = surname;
-        this.facultet = new Faculty(name, surname, Facultet); // Композиция
+        this.facultet = new Faculty(name, surname, Facultet);
         this.exams = exams; // Агрегация
     }
 
@@ -67,8 +67,8 @@ class Exams {
         this.exam = Exam;
     }
 
-    void setExams(Exams oun, Exams two) {
-        exams.add(oun);
+    void setExams(Exams one, Exams two) {
+        exams.add(one);
         exams.add(two);
     }
 
@@ -81,7 +81,7 @@ class Exams {
     }
 }
 
-class Teacher extends Abiturient { // Обобщение
+class Teacher extends Abiturient {
     private String name, surname;
     public int Assessment;
 
@@ -92,14 +92,13 @@ class Teacher extends Abiturient { // Обобщение
         this.Assessment = assessment;
     }
 
-    @Override
     public void show() {
         System.out.println("The teacher gave the grade " + this.Assessment
                 + " for student " + this.name + " " + this.surname);
     }
 }
 
-class Assessment {
+class Assessment { // rand point
     private int max = 10;
     private int min = 0;
 
@@ -116,8 +115,8 @@ interface Printable {
 public class task1 {
     public static void main(String[] args) {
         HashMap<String, Integer> studentsResult = new HashMap<String, Integer>();
-        Abiturient Putin = new Abiturient("Joseph", "Baiden");
-        Putin.show();
+        Abiturient Ab_1 = new Abiturient("Ivan", "Petrov");
+        Ab_1.show();
 
         String Facultet = "FEIS";
         Exams math = new Exams("language");
@@ -126,28 +125,28 @@ public class task1 {
         math.setExams(math, history);
         ArrayList<Exams> exams = history.getExams();
 
-        Putin = new Abiturient(Putin.getName(), Putin.getSurname(), Facultet, exams);
-        Faculty facultet = new Faculty(Putin.getName(), Putin.getSurname(), Facultet);
+        Ab_1 = new Abiturient(Ab_1.getName(), Ab_1.getSurname(), Facultet, exams);
+        Faculty facultet = new Faculty(Ab_1.getName(), Ab_1.getSurname(), Facultet);
         facultet.showFacult();
-        Putin.showResult();
+        Ab_1.showResult();
 
-        Teacher Petya = new Teacher(Putin.getName(), Putin.getSurname(), assessment.getAssessment());
-        Putin.assessment = Petya.Assessment;
-        Petya.show();
-        studentsResult.put(Putin.getSurname(), Putin.assessment);
+        Teacher Tch_1 = new Teacher(Ab_1.getName(), Ab_1.getSurname(), assessment.getAssessment());
+        Ab_1.assessment = Tch_1.Assessment;
+        Tch_1.show();
+        studentsResult.put(Ab_1.getSurname(), Ab_1.assessment);
 
-        Abiturient Kim = new Abiturient("Bashar", "Asad");
-        Kim.show();
+        Abiturient Ab_2 = new Abiturient("Petr", "Ivanov");
+        Ab_2.show();
 
-        Kim = new Abiturient(Kim.getName(), Kim.getSurname(), Facultet, exams);
-        Faculty facultet2 = new Faculty(Kim.getName(), Kim.getSurname(), Facultet);
+        Ab_2 = new Abiturient(Ab_2.getName(), Ab_2.getSurname(), Facultet, exams);
+        Faculty facultet2 = new Faculty(Ab_2.getName(), Ab_2.getSurname(), Facultet);
         facultet2.showFacult();
-        Kim.showResult();
+        Ab_2.showResult();
 
-        Teacher Petya2 = new Teacher(Kim.getName(), Kim.getSurname(), assessment.getAssessment());
-        Kim.assessment = Petya2.Assessment;
-        Petya2.show();
-        studentsResult.put(Kim.getSurname(), Kim.assessment);
+        Teacher Tch_2 = new Teacher(Ab_2.getName(), Ab_2.getSurname(), assessment.getAssessment());
+        Ab_2.assessment = Tch_2.Assessment;
+        Tch_2.show();
+        studentsResult.put(Ab_2.getSurname(), Ab_2.assessment);
 
         System.out.println("\nStudents who passed the exams");
         for (Map.Entry<String, Integer> entry : studentsResult.entrySet())

@@ -7,16 +7,16 @@ public class task2 {
         Word word2 = new Word("true");
         Word word3 = new Word("end");
 
-        Page oun = new Page();
-        oun.addWord(word1);
-        oun.addWord(word2);
-        System.out.println("Page " + oun.getNumPage() + ": " + oun.getValue());
+        Page one = new Page();
+        one.addWord(word1);
+        one.addWord(word2);
+        System.out.println("Page " + one.getNumPage() + ": " + one.getValue());
 
         Page two = new Page();
         two.addWord(word3);
         System.out.println("Page " + two.getNumPage() + ": " + two.getValue());
 
-        text.addText(oun);
+        text.addText(one);
         text.addText(two);
 
         System.out.println("Title: " + text.getTitle());
