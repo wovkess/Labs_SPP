@@ -1,11 +1,11 @@
 public class task2 {
     public static void main(String[] args) {
-        Word word = new Word("It");
+        Word word = new Word("word_title");
         Text text = new Text(word);
 
-        Word word1 = new Word("is");
-        Word word2 = new Word("true");
-        Word word3 = new Word("end");
+        Word word1 = new Word("word1");
+        Word word2 = new Word("word2");
+        Word word3 = new Word("word3");
 
         Page one = new Page();
         one.addWord(word1);
