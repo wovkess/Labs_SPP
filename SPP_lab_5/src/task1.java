@@ -1,47 +1,62 @@
 public class task1 {
-
     public static void main(String[] args) {
-        LaserPrinter laserPrinter = new LaserPrinter(300, true, 7);
-        laserPrinter.print();
-    }
-
-}
-
-interface PrintingDevice {
-    void print();
-
-    int textLength();
-}
-
-class Printer implements PrintingDevice {
-    int maxTextLength;
-    boolean wifi;
-
-    Printer(int maxTextLength, boolean wifi) {
-        this.wifi = wifi;
-        this.maxTextLength = maxTextLength;
-    }
-
-    public void print() {
-        System.out.println("Maximum string length: " + maxTextLength + " \n" + "Havin'g wi-fi: " + wifi
-                + "\nString length now: " + textLength());
-    }
-
-    public int textLength() {
-        return 1;
+        College[] info = new College[2];
+        info[0] = new University("Free", "State", 1050, 5);
+        info[1] = new University("Charge", "Private", 0, 3);
+        for (College temp : info)
+            System.out.println(temp);
     }
 }
 
-class LaserPrinter extends Printer {
-    private int maxTextLength;
+interface EducationInstitution {
+    String getOwner();
 
-    LaserPrinter(int maxTextLength, boolean wifi, int recordWeight) {
-        super(maxTextLength, wifi);
-        this.maxTextLength = maxTextLength;
+    int getPlaces();
+}
+
+class College implements EducationInstitution {
+    protected String education;
+    protected String owner;
+    protected int numStateFundedPlaces;
+
+    public College(String education, String owner, int numStateFundedPlaces) {
+        this.education = education;
+        this.owner = owner;
+        this.numStateFundedPlaces = numStateFundedPlaces;
     }
 
-    public int textLength() {
-        return 10;
+    public String getEducation() {
+        return education;
+    };
+
+    @Override
+    public String getOwner() {
+        return owner;
     }
 
+    @Override
+    public int getPlaces() {
+        return numStateFundedPlaces;
+    }
+}
+
+class University extends College {
+    private int numCorpus;
+
+    public University(String education, String owner, int numStateFundedPlaces, int numCorpus) {
+        super(education, owner, numStateFundedPlaces);
+        this.numCorpus = numCorpus;
+    }
+
+    public int getNumCorpus() {
+        return numCorpus;
+    }
+
+    @Override
+    public String toString() {
+        return "\nCost of Education = '" + education + "\';\n" +
+                "Number of corpuses = " + numCorpus + ";\n" +
+                "Owner institutions = " + getOwner() + ";\n" +
+                "Number state-funded places = " + getPlaces() + ".\n";
+    }
 }

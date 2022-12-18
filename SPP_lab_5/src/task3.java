@@ -1,160 +1,161 @@
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.HashMap;
+import java.util.Map;
+
+abstract class Person {
+
+    private String name, surname;
+
+    public String getName() {
+        return name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public Person(String name, String surname) {
+
+        this.name = name;
+        this.surname = surname;
+    }
+
+    public abstract void show();
+}
+
+class Abiturient extends Person {
+    public Integer assessment;
+    private Faculty facultet; // Ассоциация
+    private ArrayList<Exams> exams; // Ассоциация
+    private Exams exam = new Exams("Show");;
+
+    Abiturient(String name, String surname, String Facultet, ArrayList<Exams> exams) {
+        super(name, surname);
+        this.facultet = new Faculty(name, surname, Facultet); // Композиция
+        this.exams = exams; // Агрегация
+    }
+
+    Abiturient(String name, String surname) {
+        super(name, surname);
+    }
+
+    public void show() {
+        System.out.println("\nAbiturient: " + super.getSurname() + " " + super.getName());
+    }
+
+    public void showResult() {
+        System.out.println("Abiturient " + super.getSurname() + " " + super.getName() +
+                " of faculty " + this.facultet.getFaculty() + " passed exams " + exam.show());
+    }
+}
+
+class Faculty extends Abiturient {
+    private String Namefacult, name, surname;
+
+    Faculty(String name, String surname, String namefacult) {
+        super(name, surname);
+        this.name = name;
+        this.surname = surname;
+        this.Namefacult = namefacult;
+    }
+
+    String getFaculty() {
+        return this.Namefacult;
+    }
+
+    void showFacult() {
+        System.out.println("Abiturient " + this.name + " "
+                + this.surname + " registered with the faculty: " + this.Namefacult);
+    }
+}
+
+class Exams implements Printable {
+    private String exam;
+    static private ArrayList<Exams> exams = new ArrayList<Exams>();
+
+    Exams(String Exam) {
+        this.exam = Exam;
+    }
+
+    void setExams(Exams oun, Exams two) {
+        exams.add(oun);
+        exams.add(two);
+    }
+
+    ArrayList<Exams> getExams() {
+        return exams;
+    }
+
+    public String show() {
+        return exams.get(0).exam + " and " + exams.get(1).exam;
+    }
+}
+
+class Teacher {
+    public int Assessment;
+
+    Teacher(Integer assessment) {
+        this.Assessment = assessment;
+    }
+
+    public void show() {
+        System.out.println("The teacher gave the grade " + this.Assessment);
+    }
+}
+
+class Assessment {
+    private int max = 10;
+    private int min = 0;
+
+    Integer getAssessment() {
+        return (int) (Math.random() * ((max - min) + 1)) + min;
+    }
+}
+
+interface Printable {
+
+    String show();
+}
 
 public class task3 {
     public static void main(String[] args) {
-        CargoСarrier cargoCompany = new CargoСarrier();
-        cargoCompany.Initialization();
-        int num = cargoCompany.ChooseCity();
-        cargoCompany.showPrice(num);
-    }
-}
+        HashMap<String, Integer> studentsResult = new HashMap<String, Integer>();
+        Abiturient Ab_1 = new Abiturient("Petrov", "Ivan");
+        Ab_1.show();
 
-class CargoСarrier {
-    private int numCity, num;
-    private List<Integer> Distance = new ArrayList<Integer>();
-    private List<String> City = new ArrayList<String>();
+        String Facultet = "FEIS";
+        Exams math = new Exams("language");
+        Exams history = new Exams("literature");
+        Assessment assessment = new Assessment();
+        math.setExams(math, history);
+        ArrayList<Exams> exams = history.getExams();
 
-    Scanner in = new Scanner(System.in);
+        Ab_1 = new Abiturient(Ab_1.getName(), Ab_1.getSurname(), Facultet, exams);
+        Faculty facultet = new Faculty(Ab_1.getName(), Ab_1.getSurname(), Facultet);
+        facultet.showFacult();
+        Ab_1.showResult();
 
-    public void Initialization() {
-        char[] c = new char[10];
-        Arrays.fill(c, '*');
-        String str = new String(c);
-        str.replace('\n', '\0');
-        System.out.println(str + " Cargo carrier parameters " + str);
+        Teacher Tch_1 = new Teacher(assessment.getAssessment());
+        Ab_1.assessment = Tch_1.Assessment;
+        Tch_1.show();
+        studentsResult.put(Ab_1.getSurname(), Ab_1.assessment);
 
-        System.out.print("Enter the number of cities to which the cargo carrier delivers the cargo: ");
-        this.numCity = in.nextInt();
-        in.nextLine();
+        Abiturient Ab_2 = new Abiturient("Ivanov", "Petr");
+        Ab_2.show();
 
-        for (int i = 0; i < this.numCity; i++) {
-            System.out.print("Enter the name of the city at #" + i + ": ");
-            this.City.add(in.nextLine());
+        Ab_2 = new Abiturient(Ab_2.getName(), Ab_2.getSurname(), Facultet, exams);
+        Faculty facultet2 = new Faculty(Ab_2.getName(), Ab_2.getSurname(), Facultet);
+        facultet2.showFacult();
+        Ab_2.showResult();
 
-            System.out.print("Specify the distance to the city " + this.City.get(i) + ": ");
-            this.Distance.add(in.nextInt());
-            in.nextLine();
-        }
+        Teacher Tch_2 = new Teacher(assessment.getAssessment());
+        Ab_2.assessment = Tch_2.Assessment;
+        Tch_2.show();
+        studentsResult.put(Ab_2.getSurname(), Ab_2.assessment);
 
-        System.out.println(str + " The end of initialization " + str);
-    }
-
-    public int ChooseCity() {
-        do {
-            System.out.print("Enter the number of the city where you want to deliver: ");
-            num = in.nextInt();
-            in.nextLine();
-            if (num > this.numCity) {
-                System.out.println("Error! There is no city with this number");
-            } else {
-                return num;
-            }
-        } while (true);
-    }
-
-    public void showPrice(int num) {
-        String city = this.City.get(num);
-        int s = this.Distance.get(num);
-
-        System.out.println("********" + " Pricelist for cargo transportation to the city " + city + "********");
-        System.out.println("\nDelivery by plane to the city " + city + ", distance to the city " + s);
-        System.out.println("Price: " + this.AirplaneDeliveryCharges(s) +
-                "; Duration of delivery: " + this.AirplaneDeliveryTime(s));
-
-        System.out.println("\nDelivery by train to the city " + city + ", distance to the city " + s);
-        System.out.println("Price: " + this.TrainDeliveryCharges(s) +
-                "; Duration of delivery: " + this.TrainDeliveryTime(s));
-
-        System.out.println("\nDelivery by car to the city " + city + ", distance to the city " + s);
-        System.out.println("Price: " + this.CarDeliveryCharges(s) +
-                "; Duration of delivery: " + this.CarDeliveryTime(s));
-    }
-
-    public int AirplaneDeliveryTime(int s) {
-        return new Airplane().DeliveryTime(s);
-    }
-
-    public int TrainDeliveryTime(int s) {
-        return new Train().DeliveryTime(s);
-    }
-
-    public int CarDeliveryTime(int s) {
-        return new Car().DeliveryTime(s);
-    }
-
-    public int AirplaneDeliveryCharges(int s) {
-        return new Airplane().DeliveryCharges(s);
-    }
-
-    public int TrainDeliveryCharges(int s) {
-        return new Train().DeliveryCharges(s);
-    }
-
-    public int CarDeliveryCharges(int s) {
-        return new Car().DeliveryCharges(s);
-    }
-}
-
-class Airplane extends CargoСarrier {
-    private int price = 100000;
-    private int speed = 500;
-
-    public int DeliveryTime(int s) {
-        return s / speed;
-    }
-
-    public int DeliveryCharges(int s) {
-        int t = DeliveryTime(s);
-
-        if (t >= 0 && t <= 10)
-            return price;
-        else if (t > 20)
-            return price + 5000;
-        else
-            return price + 10000;
-    }
-}
-
-class Train extends CargoСarrier {
-    private int price = 40000;
-    private int speed = 120;
-
-    public int DeliveryTime(int s) {
-        return s / speed;
-    }
-
-    public int DeliveryCharges(int s) {
-        int t = DeliveryTime(s);
-
-        if (t >= 0 && t <= 10)
-            return price;
-        else if (t > 20)
-            return price + 5000;
-        else
-            return price + 10000;
-    }
-}
-
-class Car extends CargoСarrier {
-    private int price = 20000;
-    private int speed = 80;
-
-    public int DeliveryTime(int s) {
-        return s / speed;
-    }
-
-    public int DeliveryCharges(int s) {
-        int t = DeliveryTime(s);
-
-        if (t >= 0 && t <= 10) {
-            return price;
-        } else if (t > 20) {
-            return price + 5000;
-        } else {
-            return price + 10000;
-        }
+        System.out.println("\nStudents who passed the exams");
+        for (Map.Entry<String, Integer> entry : studentsResult.entrySet())
+            if (entry.getValue() >= 4)
+                System.out.println(entry.getKey());
     }
 }
